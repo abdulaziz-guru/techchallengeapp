@@ -1,0 +1,20 @@
+.candidate-page {
+	font-size: var(--text-base);
+}
+
+.candidate-page-card {
+	display: block;
+	text-decoration: none;
+	margin-bottom: var(--margin-lg);
+}
+
+.candidate-page-card:hover {
+	box-shadow: var(--shadow-md);
+	text-decoration: none;
+}
+
+#experience {
+    font-size: 13px;
+    font-weight: bold;
+    color: black;
+}

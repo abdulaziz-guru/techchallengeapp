@@ -1,0 +1,44 @@
+<!-- jinja -->
+<div class="row candidate-page">
+    {% set candidates = frappe.get_all("Candidate", fields=["name", "status", "email"]) %}
+    {% set status_colors = {'Draft': '#A9A9A9', 'Shortlisted': '#008000', 'Rejected': '#FF0000', 'Hired': '#0000FF'} %}
+    {% for candidate in candidates %}
+    <div class="col-lg-3 col-md-4 col-12">
+        <div id="{{ candidate['name'] }}" target="_blank" rel="noopener noreferrer" class="frappe-card candidate-page-card">
+            <div>
+                <h4>{{ candidate['name'] }}</h4>
+            </div>
+            <div class="mt-2">
+                <svg xmlns="http://www.w3.org/2000/svg" style="background-size: 20px 30px;" class="icon-sm" width="30" height="18"
+                    viewBox="0 0 24 24" >
+                    <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10h5v-2h-5c-4.34 0-8-3.66-8-8s3.66-8 8-8 8 3.66 8 8v1.43c0 .79-.71 1.57-1.5 1.57s-1.5-.78-1.5-1.57V12c0-2.76-2.24-5-5-5s-5 2.24-5 5 2.24 5 5 5c1.38 0 2.64-.56 3.54-1.47.65.89 1.77 1.47 2.96 1.47 1.97 0 3.5-1.6 3.5-3.57V12c0-5.52-4.48-10-10-10zm0 13c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"
+                        id="mainIconPathAttribute" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                </svg>
+                {{ candidate['email'] }}
+            </div>
+            <div class="mt-2">
+                <svg width="17" height="17">
+                    <circle cx="8" cy="8" r="7" fill="{{ status_colors[candidate['status']] }}" />
+                </svg>
+                {{ candidate['status'] }}
+            </div>
+            <div class="mt-2">
+                {% set experiences = frappe.get_all("Experience", filters={"parent": candidate['name']}, fields=["experience"]) %}
+                {% if experiences %}
+                    <p id="experience">Experience</p>
+                    <ul>
+                        {% for experience in experiences %}
+                            <li>{{ experience['experience'] }}</li>
+                        {% endfor %}
+                    </ul>
+                {%endif%}
+            </div>
+            <div class="mt-2">
+                <button type="button" class="btn btn-primary" id="{{ candidate['name'] }}">Edit</button>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<script src="candidate_page.js"></script>
